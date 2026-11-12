@@ -1,0 +1,16 @@
+{
+    "formId": "<form-id>",
+    "questionIDsToFields" : {
+        "<question-id1>" : {
+            "fieldName" : "name of field that this question fills"
+        },
+        
+        "<question-id2>" : {
+            "fieldName" : "vocalVersion",
+            "answerTranslations" : {
+                "Some answer to abbreviate" : "abbreviated answer",
+                "Normal/On-vocal" : "Normal"
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "karaokequeuereactjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "app": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "frontend" : "cd karaoke-queue-app && npm run dev",
+    "backend" : "cd backend && npm run serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "concurrently": "^10.0.7"
+  }
+}
