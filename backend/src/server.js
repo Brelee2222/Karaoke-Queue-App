@@ -6,7 +6,7 @@ import { searchVideos } from './videoSearch.js';
 const app = express();
 const port = 8080;
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: '*' }));
 
 app.get('/entries', async (req, res) => 
     res.send(await getKaraokeEntries(new Date(req.query.time)))

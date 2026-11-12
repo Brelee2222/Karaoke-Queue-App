@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "app": "concurrently \"npm run frontend\" \"npm run backend\"",
-    "frontend" : "cd karaoke-queue-app && npm run dev",
+    "start": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "build": "cd karaoke-queue-app && npm run build",
+    "frontend" : "cd karaoke-queue-app && npm run start",
     "backend" : "cd backend && npm run serve"
   },
   "keywords": [],

@@ -8,7 +8,7 @@ type KaraokeSignUpsUpdate = {
 let lastQueryTime = new Date().toISOString();
 
 export default async function getKaraokeSignups() : Promise<KaraokeSignUpsUpdate> {
-    const data = await fetch(`http://localhost:8080/entries?time=${lastQueryTime}`);
+    const data = await fetch(`http://${window.location.hostname}:8080/entries?time=${lastQueryTime}`);
 
     lastQueryTime = new Date().toISOString();
     

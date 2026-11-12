@@ -25,7 +25,7 @@ const {
     doAdvanceSinger
 } = props;
 
-let [qrURL, setQrURL] = useState("");
+let [qrURL, setQrURL] = useState<string>("");
 
 
 // #### HTML Element #### //
@@ -45,8 +45,16 @@ return (
         color="gray"
     />
     <div style={{gridArea : "qr"}}>
-        <QRCode value={qrURL}/>
+        <QRCode 
+            style={{display : 
+                qrURL != "" ? "inline" : "none"
+            }} 
+            value={qrURL}
+        />
         <textarea 
+            style={{display : 
+                qrURL == "" ? "inline" : "none"
+            }}
             value={qrURL}
             onChange={onQrURLChange}
         />
