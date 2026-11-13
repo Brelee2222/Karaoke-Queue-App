@@ -40,6 +40,8 @@ return (
         <button onClick={doRewindSinger}>Rewind Queue</button>
         <span style={instructionsStyle}>
             Once it is your turn to sing, choose the song video you want to sing to, and enjoy!
+            <br/>
+            Signups are editable!
         </span>
     </div>
 </div>

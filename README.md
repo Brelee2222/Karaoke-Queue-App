@@ -3,6 +3,7 @@ The karaoke-queue is a ReactJs-based app designed to help streamline the karaoke
 ---
 ## Features
  - Pulls responses from a google form to register queue signups. 
+ - Responses are editable
  - Play songs from a Youtube embed
  - Lists the queue order
  - Supports different types of queue orders
