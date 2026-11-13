@@ -1,6 +1,7 @@
 import { KaraokeSpot } from "@/utils/types";
 import { CSSProperties } from "react";
 import SpotlightSinger from "./spotlight/SpotlightSinger";
+import { normalTextColor } from "@/constants/styles.constants";
 
 
 // #### Properties #### //
@@ -37,6 +38,9 @@ return (
     <div style={bottomStyle}>
         <button onClick={doAdvanceSinger}>Next Song</button>
         <button onClick={doRewindSinger}>Rewind Queue</button>
+        <span style={instructionsStyle}>
+            Once it is your turn to sing, choose the song video you want to sing to, and enjoy!
+        </span>
     </div>
 </div>
 
@@ -55,4 +59,8 @@ const containerStyle : CSSProperties = {
 const bottomStyle : CSSProperties = {
     display: "flex",
     flexDirection : "column"
+}
+
+const instructionsStyle : CSSProperties = {
+    color : normalTextColor
 }

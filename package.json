@@ -1,16 +1,19 @@
 {
   "name": "karaokequeuereactjs",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Karaoke Queue App",
   "scripts": {
+    "dev": "concurrently \"npm run frontendDev\" \"npm run backendDev\"",
+    "frontendDev" : "npm run dev --prefix karaoke-queue-app",
+    "backendDev" : "npm run backend",
     "start": "concurrently \"npm run frontend\" \"npm run backend\"",
-    "build": "cd karaoke-queue-app && npm run build",
-    "frontend" : "cd karaoke-queue-app && npm run start",
-    "backend" : "cd backend && npm run serve"
+    "build": "npm run build --prefix karaoke-queue-app",
+    "frontend" : "npm run start --prefix karaoke-queue-app",
+    "backend" : "npm run serve --prefix backend",
+    "setup" : "npm i && npm i --prefix karaoke-queue-app && npm i --prefix backend"
   },
   "keywords": [],
-  "author": "",
+  "author": "Brelee2222",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
