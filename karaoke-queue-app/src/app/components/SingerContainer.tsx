@@ -41,7 +41,7 @@ return (
         <span style={instructionsStyle}>
             Once it is your turn to sing, choose the song video you want to sing to, and enjoy!
             <br/>
-            Signups are editable!
+            You can edit your signups on the google form! (That's right, it was actually enabled on purpose for once! What a shocker.)
         </span>
     </div>
 </div>
