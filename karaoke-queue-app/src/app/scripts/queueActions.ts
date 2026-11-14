@@ -1,7 +1,11 @@
-import { nextSingersQueue, pastSingersQueue } from "./karaokeQueue";
+import { PastSingersDeQueue, PseudoRandomQueue, RandomQueue, SingersDeQueue } from "./karaokeQueue";
 import { KaraokeEntry, KaraokeFullQueue } from "@/utils/types";
 
-let currentSingerEntry : KaraokeEntry | null = null;
+let 
+currentSingerEntry : KaraokeEntry | null = null,
+
+nextSingersQueue : SingersDeQueue = new SingersDeQueue(),
+pastSingersQueue : PastSingersDeQueue = new PastSingersDeQueue();
 
 export function addToKaraokeQ(entry : KaraokeEntry) : void {
     nextSingersQueue.addLast(entry);
@@ -49,4 +53,12 @@ export function getKaraokeQInfo() : KaraokeFullQueue {
 
 export function getCurrentKaraokeEntry() : KaraokeEntry | null {
     return currentSingerEntry;
+}
+
+export function useQueueType(queueType : string) {
+    nextSingersQueue = new ({
+        "normal" : SingersDeQueue,
+        "pseudo-random" : PseudoRandomQueue,
+        "random" : RandomQueue
+    }[queueType] ?? SingersDeQueue)();
 }

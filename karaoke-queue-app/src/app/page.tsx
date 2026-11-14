@@ -8,11 +8,12 @@ import { CSSProperties, useEffect, useState } from "react";
 import { 
   advanceKaraokeQ, rewindKaraokeQ,        // Queue Manipulators
   updateKaraokeEntries, addToKaraokeQ ,
-  getCurrentKaraokeEntry, getKaraokeQInfo // Queue Getters
+  getCurrentKaraokeEntry, getKaraokeQInfo, // Queue Getters
+  useQueueType
 } from "./scripts/queueActions";
 
 // Services
-import getKaraokeSignups from "@/services/karaokeSignups";
+import fetchKaraokeSignups from "@/services/karaokeSignups";
 
 // Components
 import SingerContainer from "./components/SingerContainer";
@@ -25,20 +26,11 @@ export default function Home() {
 const RESPONSE_CHECK_INTERVAL = 60 * 1000;
 
 let 
-qrURL = "",
 [karaokeQueue, setKaraokeQueue] = useState<KaraokeFullQueue>({ nextSingers: [], pastSingers: [] }),
 [currentEntry, setCurrentEntry] = useState<KaraokeSpot | null>(null),
 [currentVideoSearchTerm, setCurrentVideoSearchTerm] = useState<string | null>(null);
 
-useEffect(() => {
-  const repeat = setInterval(async () => {
-    await checkNewSignups();
-
-    refreshQueue();
-  }, RESPONSE_CHECK_INTERVAL);
-
-  return () => clearTimeout(repeat);
-}, []);
+useEffect(initialize, []);
 
 
 
@@ -70,55 +62,72 @@ return (
 
 //#### Functions ####/
 
-// Moves to the next signup entry in the queue
+// Dispatch the queue to be re-rendered
+function updateQueue() {
+  setKaraokeQueue(getKaraokeQInfo());
+}
+
+async function refreshQueue() {
+  await checkNewSignups();
+  updateQueue();
+}
+
+// Updates the queue and move to the next singer
 async function advanceSinger() {
-  await checkNewSignups(); // Update the queue list before getting the next singer
+  await checkNewSignups();
 
   advanceKaraokeQ();
 
-  refreshCurrentSignup();
-  refreshQueue();
+  updateCurrentSignup();
+  updateQueue();
 }
 
-// Goes back to the previous entry in the queue
+// Updates the queue and rewinds to the previous singer
 async function rewindSinger() {
   await checkNewSignups();
 
   rewindKaraokeQ();
 
-  refreshCurrentSignup();
-  refreshQueue();
+  // Refresh queue
+  updateCurrentSignup();
+  updateQueue();
 }
 
 // Checks for any new or udpated signups
 async function checkNewSignups() {
-  const signups = await getKaraokeSignups();
+  const signups = await fetchKaraokeSignups();
 
-  updateKaraokeEntries(signups.updatedSignups); // Update edited signups
+  // Update any edited signups and add new ones
+  updateKaraokeEntries(signups.updatedSignups);
   signups.newSignups // Add new signups
-    .sort((a, b) => a.submitTime - b.submitTime) // Sort signups
+    .sort((a, b) => a.submitTime - b.submitTime) // Sort signups based on created time
     .forEach(addToKaraokeQ);
 }
 
-// Re-renders the queue
-function refreshQueue() {
-  setKaraokeQueue(getKaraokeQInfo());
-}
-
 // Refreshes the current selected song
-async function refreshCurrentSignup() {
-  // Update the current Signup
+async function updateCurrentSignup() {
+  // Get the current singer and dispatch an update
   const currentEntry = getCurrentKaraokeEntry();
   setCurrentEntry(currentEntry);
 
-  // Get the song title to search up 
+  // Set the new search term
   const songTitle = currentEntry?.songTitle ?? "rick roll"; 
-
   setCurrentVideoSearchTerm(
     currentEntry?.vocalVersion == "Karaoke" ? // Add 'karaoke' to the search if the song version is karaoke
       songTitle + " karaoke" :
       songTitle
   );
+}
+
+// On Initialize
+function initialize() {
+  const queueUpdate = setInterval(refreshQueue, RESPONSE_CHECK_INTERVAL);
+
+  useQueueType(new URLSearchParams(window.location.search).get("queue-type") ?? "");
+
+  return () => {
+    clearTimeout(queueUpdate);
+  }
 }
 
 }
