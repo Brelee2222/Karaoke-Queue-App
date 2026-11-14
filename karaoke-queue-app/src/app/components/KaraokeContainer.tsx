@@ -47,7 +47,8 @@ return (
     <div style={{gridArea : "qr"}}>
         <QRCode 
             style={{display : 
-                qrURL != "" ? "inline" : "none"
+                qrURL != "" ? "inline" : "none",
+                border : "10px purple solid"
             }} 
             value={qrURL}
         />
